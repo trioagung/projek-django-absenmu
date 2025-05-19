@@ -1,0 +1,50 @@
+<h2 class="text-2xl font-bold mb-4">Tambah Absensi</h2>
+
+<form method="get" class="mb-4">
+  <select name="jurusan" onchange="this.form.submit()" class="border p-2 rounded">
+    <option value="">Pilih Jurusan</option>
+    {% for jur in jurusan_list %}
+    <option value="{{ jur.id }}" {% if jur.id|stringformat:"s" == request.GET.jurusan %}selected{% endif %}>{{ jur.nama }}</option>
+    {% endfor %}
+  </select>
+
+  <select name="kelas" onchange="this.form.submit()" class="border p-2 rounded ml-2">
+    <option value="">Pilih Kelas</option>
+    {% for kls in kelas_list %}
+    <option value="{{ kls.id }}" {% if kls.id|stringformat:"s" == request.GET.kelas %}selected{% endif %}>{{ kls.nama }}</option>
+    {% endfor %}
+  </select>
+</form>
+
+{% if siswa_list %}
+<form method="post">
+  {% csrf_token %}
+  <input type="date" name="tanggal" required class="border p-2 rounded mb-4">
+  <table class="min-w-full bg-white rounded shadow">
+    <thead class="bg-indigo-600 text-white">
+      <tr>
+        <th>Nama</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for siswa in siswa_list %}
+      <tr class="border-b">
+        <td class="px-4 py-2">{{ siswa.nama }}</td>
+        <td class="px-4 py-2">
+          <select name="status_{{ siswa.id }}" class="border p-2 rounded">
+            <option value="">-- Pilih --</option>
+            <option value="izin">Izin</option>
+            <option value="alfa">Alfa</option>
+            <option value="bolos">Bolos</option>
+          </select>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <button type="submit" class="mt-4 bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600">Kirim</button>
+</form>
+{% else %}
+<p class="text-gray-500">Silakan pilih jurusan dan kelas terlebih dahulu.</p>
+{% endif %}

@@ -1,0 +1,58 @@
+<h2 class="text-2xl font-bold mb-4">Rekap Absensi dan Pelanggaran Siswa</h2>
+
+<p><strong>Nama:</strong> {{ siswa.nama }}</p>
+
+<table class="table-auto w-full border-collapse border border-gray-300 mb-6">
+  <thead>
+    <tr class="bg-gray-100">
+      <th class="border border-gray-300 px-4 py-2">Jenis</th>
+      <th class="border border-gray-300 px-4 py-2">Jumlah</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="border border-gray-300 px-4 py-2">Izin</td>
+      <td class="border border-gray-300 px-4 py-2">{{ rekap_data.absensi.izin|default:"0" }}</td>
+    </tr>
+    <tr>
+      <td class="border border-gray-300 px-4 py-2">Alfa</td>
+      <td class="border border-gray-300 px-4 py-2">{{ rekap_data.absensi.alfa|default:"0" }}</td>
+    </tr>
+    <tr>
+      <td class="border border-gray-300 px-4 py-2">Bolos</td>
+      <td class="border border-gray-300 px-4 py-2">{{ rekap_data.absensi.bolos|default:"0" }}</td>
+    </tr>
+    <tr>
+      <td class="border border-gray-300 px-4 py-2">Pelanggaran</td>
+      <td class="border border-gray-300 px-4 py-2">{{ rekap_data.pelanggaran_count }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<canvas id="grafikSiswa" class="w-full h-64"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const data = JSON.parse('{{ grafik_data|escapejs }}');
+  const ctx = document.getElementById('grafikSiswa').getContext('2d');
+
+  const chart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: data.labels,
+      datasets: [{
+        label: 'Jumlah',
+        data: data.data,
+        backgroundColor: [
+          'rgba(59, 130, 246, 0.7)',
+          'rgba(220, 38, 38, 0.7)',
+          'rgba(234, 179, 8, 0.7)',
+          'rgba(107, 114, 128, 0.7)',
+        ],
+      }]
+    },
+    options: {
+      responsive: true
+    }
+  });
+</script>

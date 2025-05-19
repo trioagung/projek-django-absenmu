@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard Admin - Absenmuismart</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-indigo-500 to-purple-600 flex flex-col items-center justify-center text-white">
+  <div class="bg-white text-gray-800 p-8 rounded-lg shadow-lg w-full max-w-3xl">
+    <h1 class="text-3xl font-bold mb-6 text-center">Dashboard Admin - Absenmuismart</h1>
+
+    <div class="grid grid-cols-2 gap-4">
+      <a href="{% url 'tambah_user' %}" class="bg-indigo-500 hover:bg-indigo-600 text-white py-3 px-4 rounded text-center shadow-md">
+        Tambah User
+      </a>
+      <!-- Tombol lainnya akan ditambahkan nanti -->
+      <a href="#" class="bg-blue-500 hover:bg-blue-600 text-white py-3 px-4 rounded text-center shadow-md">
+        Kelola Siswa
+      </a>
+      <a href="#" class="bg-green-500 hover:bg-green-600 text-white py-3 px-4 rounded text-center shadow-md">
+        Rekap & Grafik
+      </a>
+      <a href="#" class="bg-red-500 hover:bg-red-600 text-white py-3 px-4 rounded text-center shadow-md">
+        Siswa Keluar
+      </a>
+      <a href="{% url 'tambah_siswa' %}" class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+        <h2 class="text-xl font-semibold text-indigo-600">Tambah Siswa</h2>
+        <p class="text-gray-600 mt-2">Tambahkan data siswa baru sekaligus membuat akun login.</p>
+      </a>
+      <a href="{% url 'daftar_siswa' %}" class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+        <h2 class="text-xl font-semibold text-indigo-600">Daftar Siswa</h2>
+        <p class="text-gray-600 mt-2">Lihat dan kelola data semua siswa.</p>
+      </a>
+
+    </div>
+  </div>
+</body>
+</html>
+
+

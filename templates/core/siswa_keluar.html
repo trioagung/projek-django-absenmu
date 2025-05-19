@@ -1,0 +1,28 @@
+<h2 class="text-2xl font-bold mb-4">Daftar Siswa Aktif</h2>
+<table class="table-auto w-full border-collapse border border-gray-300">
+  <thead>
+    <tr class="bg-gray-100">
+      <th class="border border-gray-300 px-4 py-2">Nama</th>
+      <th class="border border-gray-300 px-4 py-2">NIS</th>
+      <th class="border border-gray-300 px-4 py-2">Kelas</th>
+      <th class="border border-gray-300 px-4 py-2">Aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for siswa in siswa_list %}
+    <tr>
+      <td class="border border-gray-300 px-4 py-2">{{ siswa.nama }}</td>
+      <td class="border border-gray-300 px-4 py-2">{{ siswa.nis }}</td>
+      <td class="border border-gray-300 px-4 py-2">{{ siswa.kelas.nama }}</td>
+      <td class="border border-gray-300 px-4 py-2">
+        <form action="{% url 'siswa_keluar_action' siswa.id %}" method="post" onsubmit="return confirm('Yakin tandai siswa keluar?');">
+          {% csrf_token %}
+          <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Tandai Keluar</button>
+        </form>
+      </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="4" class="text-center py-4">Tidak ada siswa aktif.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>

@@ -1,0 +1,10 @@
+# Abaikan folder virtual environment
+venv/
+
+# File database SQLite
+db.sqlite3
+
+# Folder cache & lainnya
+__pycache__/
+*.pyc
+.vscode/

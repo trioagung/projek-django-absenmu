@@ -1,0 +1,27 @@
+<h2 class="text-2xl font-bold mb-4">Daftar Siswa</h2>
+<table class="min-w-full bg-white rounded shadow">
+  <thead class="bg-indigo-600 text-white">
+    <tr>
+      <th class="px-4 py-2">Nama</th>
+      <th class="px-4 py-2">NIS</th>
+      <th class="px-4 py-2">Kelas</th>
+      <th class="px-4 py-2">Jurusan</th>
+      <th class="px-4 py-2">Aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for siswa in siswa_list %}
+    <tr class="border-b">
+      <td class="px-4 py-2">{{ siswa.nama }}</td>
+      <td class="px-4 py-2">{{ siswa.nis }}</td>
+      <td class="px-4 py-2">{{ siswa.kelas }}</td>
+      <td class="px-4 py-2">{{ siswa.jurusan }}</td>
+      <td class="px-4 py-2">
+        <a href="{% url 'detail_siswa' siswa.id %}" class="text-blue-500 hover:underline">Detail</a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="5" class="text-center py-4 text-gray-500">Belum ada data siswa</td></tr>
+    {% endfor %}
+  </tbody>
+</table>

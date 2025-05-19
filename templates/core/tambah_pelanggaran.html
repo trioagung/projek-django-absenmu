@@ -1,0 +1,51 @@
+<h2 class="text-2xl font-bold mb-4">Tambah Pelanggaran</h2>
+
+<form method="get" class="mb-4">
+  <select name="jurusan" onchange="this.form.submit()" class="border p-2 rounded">
+    <option value="">Pilih Jurusan</option>
+    {% for jur in jurusan_list %}
+    <option value="{{ jur.id }}" {% if jur.id|stringformat:"s" == request.GET.jurusan %}selected{% endif %}>{{ jur.nama }}</option>
+    {% endfor %}
+  </select>
+
+  <select name="kelas" onchange="this.form.submit()" class="border p-2 rounded ml-2">
+    <option value="">Pilih Kelas</option>
+    {% for kls in kelas_list %}
+    <option value="{{ kls.id }}" {% if kls.id|stringformat:"s" == request.GET.kelas %}selected{% endif %}>{{ kls.nama }}</option>
+    {% endfor %}
+  </select>
+</form>
+
+{% if siswa_list %}
+<form method="post" class="space-y-4">
+  {% csrf_token %}
+  <label for="siswa">Pilih Siswa:</label>
+  <select name="siswa" required class="border p-2 rounded w-full">
+    <option value="">-- Pilih Siswa --</option>
+    {% for siswa in siswa_list %}
+    <option value="{{ siswa.id }}">{{ siswa.nama }}</option>
+    {% endfor %}
+  </select>
+
+  <label for="tanggal">Tanggal:</label>
+  <input type="date" name="tanggal" required class="border p-2 rounded w-full">
+
+  <label>Pelanggaran:</label>
+  {% for pel in jurusan_list %}
+    {# ini salah, nanti ganti dengan master pelanggaran #}
+  {% endfor %}
+  
+  <div class="border p-4 rounded bg-gray-50">
+    {% for pelanggaran in pelanggaran_list %}
+    <label class="inline-flex items-center mr-4">
+      <input type="checkbox" name="pelanggaran" value="{{ pelanggaran.id }}" class="form-checkbox">
+      <span class="ml-2">{{ pelanggaran.nama }}</span>
+    </label>
+    {% endfor %}
+  </div>
+
+  <button type="submit" class="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600">Simpan Pelanggaran</button>
+</form>
+{% else %}
+<p class="text-gray-500">Silakan pilih jurusan dan kelas terlebih dahulu.</p>
+{% endif %}

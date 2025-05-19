@@ -1,0 +1,92 @@
+<h2 class="text-2xl font-bold mb-4">Rekap Absensi dan Pelanggaran Kelas</h2>
+
+<form method="get" class="mb-4 flex space-x-2">
+  <select name="jurusan" onchange="this.form.submit()" class="border p-2 rounded">
+    <option value="">Pilih Jurusan</option>
+    {% for jur in jurusan_list %}
+    <option value="{{ jur.id }}" {% if jur.id|stringformat:"s" == request.GET.jurusan %}selected{% endif %}>{{ jur.nama }}</option>
+    {% endfor %}
+  </select>
+
+  <select name="kelas" onchange="this.form.submit()" class="border p-2 rounded">
+    <option value="">Pilih Kelas</option>
+    {% for kls in kelas_list %}
+    <option value="{{ kls.id }}" {% if kls.id|stringformat:"s" == request.GET.kelas %}selected{% endif %}>{{ kls.nama }}</option>
+    {% endfor %}
+  </select>
+</form>
+
+{% if rekap_data %}
+<table class="table-auto w-full border-collapse border border-gray-300 mb-6">
+  <thead>
+    <tr class="bg-gray-100">
+      <th class="border border-gray-300 px-4 py-2">Siswa</th>
+      <th class="border border-gray-300 px-4 py-2">Izin</th>
+      <th class="border border-gray-300 px-4 py-2">Alfa</th>
+      <th class="border border-gray-300 px-4 py-2">Bolos</th>
+      <th class="border border-gray-300 px-4 py-2">Pelanggaran</th>
+      <th class="border border-gray-300 px-4 py-2">Detail</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in rekap_data %}
+    <tr>
+      <td class="border border-gray-300 px-4 py-2">{{ item.siswa }}</td>
+      <td class="border border-gray-300 px-4 py-2">{{ item.absensi.izin|default:"0" }}</td>
+      <td class="border border-gray-300 px-4 py-2">{{ item.absensi.alfa|default:"0" }}</td>
+      <td class="border border-gray-300 px-4 py-2">{{ item.absensi.bolos|default:"0" }}</td>
+      <td class="border border-gray-300 px-4 py-2">{{ item.pelanggaran_count }}</td>
+      <td class="border border-gray-300 px-4 py-2">
+        <a href="{% url 'rekap_siswa' siswa_id=item.siswa_id %}" class="text-indigo-600 hover:underline">Lihat</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<canvas id="grafikRekap" class="w-full h-64"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const data = JSON.parse('{{ grafik_data|escapejs }}');
+  const ctx = document.getElementById('grafikRekap').getContext('2d');
+
+  const chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: data.labels,
+      datasets: [
+        {
+          label: 'Izin',
+          data: data.izin,
+          backgroundColor: 'rgba(59, 130, 246, 0.7)'
+        },
+        {
+          label: 'Alfa',
+          data: data.alfa,
+          backgroundColor: 'rgba(220, 38, 38, 0.7)'
+        },
+        {
+          label: 'Bolos',
+          data: data.bolos,
+          backgroundColor: 'rgba(234, 179, 8, 0.7)'
+        },
+        {
+          label: 'Pelanggaran',
+          data: data.pelanggaran,
+          backgroundColor: 'rgba(107, 114, 128, 0.7)'
+        },
+      ]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: { beginAtZero: true }
+      }
+    }
+  });
+</script>
+
+{% else %}
+<p class="text-gray-500">Silakan pilih kelas untuk melihat rekap data.</p>
+{% endif %}

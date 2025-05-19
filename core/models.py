@@ -44,8 +44,8 @@ class Siswa(models.Model):
     nama = models.CharField(max_length=100)
     nis = models.CharField(max_length=20)
     nisn = models.CharField(max_length=20)
-    kelas = models.CharField(max_length=20)  # atau gunakan ForeignKey ke Kelas jika ingin
-    jurusan = models.CharField(max_length=50)  # atau ForeignKey ke Jurusan
+    kelas = models.ForeignKey(Kelas, on_delete=models.CASCADE)  # atau gunakan ForeignKey ke Kelas jika ingin
+    jurusan = models.ForeignKey(Jurusan, on_delete=models.CASCADE)  # atau ForeignKey ke Jurusan
     alamat = models.TextField()
     is_active = models.BooleanField(default=True)
 
